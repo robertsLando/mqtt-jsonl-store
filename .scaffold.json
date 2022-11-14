@@ -1,0 +1,22 @@
+{
+	"cli": true,
+	"projectName": "mqtt-jsonl-db",
+	"description": "JSONL store for in-flight MQTT.js packets.",
+	"keywords": ["jsonl", "mqtt", "mqttjs", "store"],
+	"packageManager": "npm",
+	"monorepo": false,
+	"nodeVersion": 14,
+	"tools": ["ESLint", "Prettier"],
+	"testing": "jest",
+	"releaseScript": false,
+	"indentation": "Tab",
+	"quotes": "double",
+	"authorName": "robertsLando",
+	"authorGithub": "robertsLando",
+	"authorEmail": "daniel.sorridi@gmail.com",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": false,
+	"license": "MIT License",
+	"dependabot": true,
+	"creatorVersion": "1.0.0"
+}

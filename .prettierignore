@@ -1,0 +1,6 @@
+.github/actions/**/*.yml
+.github/workflows/
+CHANGELOG*.md
+package.json
+package-lock.json
+build/
