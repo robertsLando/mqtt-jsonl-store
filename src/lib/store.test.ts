@@ -68,12 +68,14 @@ describe("mqtt client", () => {
 	});
 
 	it("should resend messages", (done) => {
+		// connect client to broker
 		const client = connect({
 			port,
 			incomingStore: manager.incoming,
 			outgoingStore: manager.outgoing,
 		});
 
+		// publish a message
 		client.publish("hello", "world", { qos: 1 });
 
 		let closed = false;
@@ -81,10 +83,13 @@ describe("mqtt client", () => {
 		broker.on("client", (c: any) => {
 			if (!closed) {
 				closed = true;
+				// first time client connect
 				// force close connection (not clean)
 				c.conn.destroy();
 			} else {
+				// second time client connect
 				broker.on("publish", (packet, c) => {
+					// when client is defined (not a broker message)
 					if (c) {
 						expect(packet.topic).toBe("hello");
 						expect(packet.payload.toString()).toBe("world");
