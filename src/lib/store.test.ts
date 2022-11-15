@@ -1,7 +1,7 @@
 import Aedes from "aedes";
 
 import { once } from "events";
-import { mkdir, rm } from "fs/promises";
+import { mkdir, rmdir } from "fs/promises";
 import { connect } from "mqtt";
 import { createServer, Server, Socket } from "net";
 import { tmpdir } from "os";
@@ -13,7 +13,7 @@ import abstractTest, { exists } from "../../test/abstract.test";
 export async function ensureTmpDir(): Promise<string> {
 	const tmpDir = join(tmpdir(), "mqtt-jsonl-store-test");
 	if (await exists(tmpDir)) {
-		await rm(tmpDir, { recursive: true, force: true });
+		await rmdir(tmpDir, { recursive: true });
 	}
 
 	await mkdir(tmpDir);
