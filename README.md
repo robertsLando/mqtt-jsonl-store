@@ -4,7 +4,7 @@ JSONL store for in-flight MQTT.js packets. Powered by [jsonl-db](https://github.
 
 [![CI](https://github.com/robertsLando/mqtt-jsonl-store/actions/workflows/ci.yml/badge.svg)](https://github.com/robertsLando/mqtt-jsonl-store/actions/workflows/ci.yml)
 
-[![node](https://img.shields.io/node/v/@robertsLando/mqtt-jsonl-store.svg) ![npm](https://img.shields.io/npm/v/@robertsLando/mqtt-jsonl-store.svg)](https://www.npmjs.com/package/@robertsLando/mqtt-jsonl-store)
+[![node](https://img.shields.io/node/v/mqtt-jsonl-store.svg) ![npm](https://img.shields.io/npm/v/mqtt-jsonl-store.svg)](https://www.npmjs.com/package/mqtt-jsonl-store)
 
 ## Installation
 
