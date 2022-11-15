@@ -9,8 +9,8 @@ export interface ManagerOptions {
 }
 
 export class Manager {
-	private incoming: MqttJsonlStore;
-	private outgoing: MqttJsonlStore;
+	public incoming: MqttJsonlStore;
+	public outgoing: MqttJsonlStore;
 
 	constructor(path: string, options?: ManagerOptions | MqttJsonlStoreOptions) {
 		if (!path) {

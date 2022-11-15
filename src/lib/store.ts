@@ -1,4 +1,5 @@
 import { JsonlDB, JsonlDBOptions } from "@alcalzone/jsonl-db";
+import type { Store } from "mqtt";
 import { Readable } from "stream";
 
 export interface DbPacket {
@@ -13,9 +14,11 @@ export interface MqttJsonlStoreOptions extends JsonlDBOptions<DbPacket> {
 	clean: boolean;
 }
 
-export type ErrorCallback = (err?: Error) => void;
+export type ErrorCallback = (err?: Error | null) => void;
 
-export class MqttJsonlStore {
+export type PacketCallback = (err?: Error | null, packet?: DbPacket) => void;
+
+export class MqttJsonlStore implements Store {
 	public db: JsonlDB<DbPacket>;
 
 	constructor(path: string, options?: MqttJsonlStoreOptions) {
@@ -30,11 +33,17 @@ export class MqttJsonlStore {
 		return this.db.open();
 	}
 
-	/** Adds a packet to the store, a packet is anything that has a messageId property.
-	 * The callback is called when the packet has been stored. */
-	public put(packet: DbPacket, cb: ErrorCallback): void {
+	/**
+	 * Adds a packet to the store, a packet is anything that has a messageId property.
+	 * The callback is called when the packet has been stored.
+	 */
+	public put(packet: DbPacket, cb?: ErrorCallback): this {
 		this.db.set(this.getId(packet), packet);
-		cb();
+		if (cb) {
+			cb();
+		}
+
+		return this;
 	}
 
 	/** Creates a new stream with all the packets in the store. */
@@ -42,11 +51,20 @@ export class MqttJsonlStore {
 		return Readable.from(this.db.values());
 	}
 
-	/** Removes a packet from the store, a packet is anything that has a messageId property.
-	 * The callback is called when the packet has been removed. */
-	public del(packet: DbPacket, cb: ErrorCallback): void {
-		this.db.delete(this.getId(packet));
-		cb();
+	/**
+	 * Removes a packet from the store, a packet is anything that has a messageId property.
+	 * The callback is called when the packet has been removed.
+	 */
+	public del(packet: DbPacket, cb: PacketCallback): this {
+		let storedPacket: DbPacket | undefined;
+		const id = this.getId(packet);
+		if (this.db.has(id)) {
+			storedPacket = this.db.get(id);
+			this.db.delete(id);
+		}
+		cb(null, storedPacket);
+
+		return this;
 	}
 
 	public close(cb: ErrorCallback): void {
@@ -56,12 +74,14 @@ export class MqttJsonlStore {
 			.catch(cb);
 	}
 
-	public get(packet: DbPacket, cb: (err?: Error, packet?: DbPacket) => void): void {
+	public get(packet: DbPacket, cb: PacketCallback): this {
 		const storedPacket = this.db.get(this.getId(packet));
 		if (storedPacket) {
-			cb(undefined, storedPacket);
+			cb(null, storedPacket);
 		} else {
 			cb(new Error("missing packet"));
 		}
+
+		return this;
 	}
 }
