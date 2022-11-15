@@ -1,7 +1,8 @@
 import Aedes from "aedes";
 
+import { deleteAsync } from "del";
 import { once } from "events";
-import { mkdir, rmdir } from "fs/promises";
+import { mkdir } from "fs/promises";
 import { connect } from "mqtt";
 import { createServer, Server, Socket } from "net";
 import { tmpdir } from "os";
@@ -13,7 +14,7 @@ import abstractTest, { exists } from "../../test/abstract.test";
 export async function ensureTmpDir(): Promise<string> {
 	const tmpDir = join(tmpdir(), "mqtt-jsonl-store-test");
 	if (await exists(tmpDir)) {
-		await rmdir(tmpDir, { recursive: true });
+		await deleteAsync(tmpDir);
 	}
 
 	await mkdir(tmpDir);
@@ -75,7 +76,10 @@ describe("mqtt client", () => {
 			outgoingStore: manager.outgoing,
 		});
 
-		// publish a message
+		// publish a message while client isn't connected
+		// this should not be received because qos is 0
+		client.publish("not", "received", { qos: 0 });
+		// this should be received because qos is 1
 		client.publish("hello", "world", { qos: 1 });
 
 		let closed = false;
