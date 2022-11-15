@@ -13,7 +13,7 @@ import abstractTest, { exists } from "../../test/abstract.test";
 export async function ensureTmpDir(): Promise<string> {
 	const tmpDir = join(tmpdir(), "mqtt-jsonl-store-test");
 	if (await exists(tmpDir)) {
-		await rm(tmpDir, { recursive: true });
+		await rm(tmpDir, { recursive: true, force: true });
 	}
 
 	await mkdir(tmpDir);
