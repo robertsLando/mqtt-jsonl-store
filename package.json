@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-jsonl-db",
+  "name": "mqtt-jsonl-store",
   "version": "0.0.1",
   "description": "JSONL store for in-flight MQTT.js packets.",
   "keywords": [
@@ -74,13 +74,13 @@
     "coverage": "npm run test:ts -- --collect-coverage",
     "lint": "eslint --ext .ts src/"
   },
-  "homepage": "https://github.com/robertsLando/mqtt-jsonl-db",
+  "homepage": "https://github.com/robertsLando/mqtt-jsonl-store",
   "repository": {
     "type": "git",
-    "url": "https://github.com/robertsLando/mqtt-jsonl-db"
+    "url": "https://github.com/robertsLando/mqtt-jsonl-store"
   },
   "bugs": {
-    "url": "https://github.com/robertsLando/mqtt-jsonl-db/issues"
+    "url": "https://github.com/robertsLando/mqtt-jsonl-store/issues"
   },
   "readmeFilename": "README.md",
   "dependencies": {

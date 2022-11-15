@@ -1,6 +1,6 @@
 {
 	"cli": true,
-	"projectName": "mqtt-jsonl-db",
+	"projectName": "mqtt-jsonl-store",
 	"description": "JSONL store for in-flight MQTT.js packets.",
 	"keywords": ["jsonl", "mqtt", "mqttjs", "store"],
 	"packageManager": "npm",

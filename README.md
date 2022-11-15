@@ -1,12 +1,28 @@
-# mqtt-jsonl-db
+# mqtt-jsonl-store
 
-JSONL store for in-flight MQTT.js packets.
+JSONL store for in-flight MQTT.js packets. Powered by [jsonl-db](https://github.com/AlCalzone/jsonl-db).
 
-## Scripts in `package.json`
+## Installation
 
-Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description |
-|-------------|-------------|
-| `build` | Compile the TypeScript sources. |
-| `watch` | Compile the TypeScript sources and watch for changes. |
-| `lint` | Runs `ESLint` to check your code for formatting errors and potential bugs. |
+```bash
+npm install mqtt-jsonl-store
+```
+
+## Usage
+
+```js
+const mqtt = require("mqtt");
+const { Manager } = require("mqtt-jsonl-store");
+
+const manager = new Manager("path/to/store");
+
+async function main() {
+ await manager.open();
+ const client = mqtt.connect("mqtt://localhost", {
+  incomingStore: manager.incoming,
+  outgoingStore: manager.outgoing,
+ });
+}
+
+main();
+```
