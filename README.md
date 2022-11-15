@@ -1,6 +1,6 @@
 # mqtt-jsonl-store
 
-JSONL store for in-flight MQTT.js packets. Powered by [jsonl-db](https://github.com/robertsLando/mqtt-jsonl-store).
+JSONL store for in-flight MQTT.js packets. Powered by [jsonl-db](https://github.com/AlCalzone/jsonl-db).
 
 [![Test and Release](https://github.com/robertsLando/mqtt-jsonl-store/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/robertsLando/mqtt-jsonl-store/actions/workflows/test-and-release.yml)
 
