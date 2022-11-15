@@ -18,7 +18,7 @@ describe("mqtt jsonl store", () => {
 			return store;
 		},
 		async (store) => {
-			await promisify(store.close.bind(store))();
+			await store.closeAsync();
 			await emptyTmpDir();
 		},
 	);
@@ -73,10 +73,13 @@ describe("mqtt client", () => {
 		// publish a message while client isn't connected
 		// this should not be received because qos is 0
 		client.publish("not", "received", { qos: 0 });
-		// this should be received because qos is 1
+		// this should be received because qos is > 0
 		client.publish("hello", "world", { qos: 1 });
 
 		let closed = false;
+
+		expect(manager.outgoing.db.size).toBe(1);
+		expect(manager.incoming.db.size).toBe(0);
 
 		broker.on("client", (c: any) => {
 			if (!closed) {
@@ -91,8 +94,12 @@ describe("mqtt client", () => {
 					if (c) {
 						expect(packet.topic).toBe("hello");
 						expect(packet.payload.toString()).toBe("world");
-						client.end();
-						done();
+						client.end(true, {}, (err) => {
+							expect(err).toBeUndefined();
+							expect(manager.outgoing.db.size).toBe(0);
+							expect(manager.incoming.db.size).toBe(0);
+							done();
+						});
 					}
 				});
 			}

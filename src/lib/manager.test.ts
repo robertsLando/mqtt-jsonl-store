@@ -1,3 +1,4 @@
+import { join } from "path";
 import abstractTest from "../../test/abstract.test";
 import { emptyTmpDir, ensureTmpDir, tmpDir } from "../../test/utils";
 import { Manager } from "./manager";
@@ -5,15 +6,22 @@ import { Manager } from "./manager";
 describe("mqtt jsonl store manager", () => {
 	let manager: Manager;
 
-	beforeEach(async () => {
-		await ensureTmpDir();
-		manager = new Manager(tmpDir);
-		await manager.open();
+	test("should throw an error when path doesn't exists", () => {
+		expect(() => new Manager(join(__dirname, "not-existing"))).toThrowError(/ENOENT/);
+	});
+
+	test("should throw an error when path isn't a directory", () => {
+		expect(() => new Manager(join(__filename))).toThrowError(/not a directory/);
 	});
 
 	describe("incoming", () => {
 		abstractTest(
-			async () => manager.incoming,
+			async () => {
+				await ensureTmpDir();
+				manager = new Manager(tmpDir);
+				await manager.open();
+				return manager.incoming;
+			},
 			async () => {
 				await manager.close();
 				await emptyTmpDir();
@@ -23,7 +31,12 @@ describe("mqtt jsonl store manager", () => {
 
 	describe("outgoing", () => {
 		abstractTest(
-			async () => manager.outgoing,
+			async () => {
+				await ensureTmpDir();
+				manager = new Manager(tmpDir);
+				await manager.open();
+				return manager.outgoing;
+			},
 			async () => {
 				await manager.close();
 				await emptyTmpDir();

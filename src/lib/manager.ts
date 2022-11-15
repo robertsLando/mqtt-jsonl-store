@@ -32,13 +32,15 @@ export class Manager {
 		this.outgoing = new MqttJsonlStore(join(path, "outgoing.jsonl"), outgoingOptions);
 	}
 
-	public async open(): Promise<void> {
-		await this.incoming.open();
-		await this.outgoing.open();
+	public async open(): Promise<{ incoming: MqttJsonlStore; outgoing: MqttJsonlStore }> {
+		await Promise.all([this.incoming.open(), this.outgoing.open()]);
+		return {
+			incoming: this.incoming,
+			outgoing: this.outgoing,
+		};
 	}
 
 	public async close(): Promise<void> {
-		await this.incoming.db.close();
-		await this.outgoing.db.close();
+		await Promise.all([this.incoming.closeAsync(), this.outgoing.closeAsync()]);
 	}
 }

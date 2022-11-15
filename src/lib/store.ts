@@ -1,6 +1,7 @@
 import { JsonlDB, JsonlDBOptions } from "@alcalzone/jsonl-db";
 import type { Store } from "mqtt";
 import { Readable } from "stream";
+import { promisify } from "util";
 
 export interface DbPacket {
 	messageId: number;
@@ -72,6 +73,10 @@ export class MqttJsonlStore implements Store {
 			.close()
 			.then(() => cb())
 			.catch(cb);
+	}
+
+	public closeAsync(): Promise<void> {
+		return promisify(this.close.bind(this))();
 	}
 
 	public get(packet: DbPacket, cb: PacketCallback): this {
