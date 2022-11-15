@@ -12,7 +12,10 @@ export async function exists(path: string): Promise<Stats | false> {
 }
 
 // Ported from https://github.com/mqttjs/MQTT.js/blob/main/test/abstract_store.js
-export default function abstractTest(createStore: () => Promise<MqttJsonlStore>): void {
+export default function abstractTest(
+	createStore: () => Promise<MqttJsonlStore>,
+	destroyStore: (store: MqttJsonlStore) => Promise<void>,
+): void {
 	let store: MqttJsonlStore;
 
 	// eslint-disable-next-line
@@ -20,8 +23,8 @@ export default function abstractTest(createStore: () => Promise<MqttJsonlStore>)
 		store = await createStore();
 	});
 
-	afterEach((done) => {
-		store.close(done);
+	afterEach(async () => {
+		await destroyStore(store);
 	});
 
 	it("should put and stream in-flight packets", (done) => {

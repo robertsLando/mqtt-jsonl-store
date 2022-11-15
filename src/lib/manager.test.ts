@@ -1,26 +1,33 @@
 import abstractTest from "../../test/abstract.test";
 import { Manager } from "./manager";
-import { ensureTmpDir } from "./store.test";
+import { emptyTmpDir, ensureTmpDir, tmpDir } from "./store.test";
 
 describe("mqtt jsonl store manager", () => {
 	let manager: Manager;
-	let tmpDir: string;
 
 	beforeEach(async () => {
-		tmpDir = await ensureTmpDir();
+		await ensureTmpDir();
 		manager = new Manager(tmpDir);
 		await manager.open();
 	});
 
-	afterEach(async () => {
-		await manager.close();
-	});
-
 	describe("incoming", () => {
-		abstractTest(async () => manager.incoming);
+		abstractTest(
+			async () => manager.incoming,
+			async () => {
+				await manager.close();
+				await emptyTmpDir();
+			},
+		);
 	});
 
 	describe("outgoing", () => {
-		abstractTest(async () => manager.outgoing);
+		abstractTest(
+			async () => manager.outgoing,
+			async () => {
+				await manager.close();
+				await emptyTmpDir();
+			},
+		);
 	});
 });

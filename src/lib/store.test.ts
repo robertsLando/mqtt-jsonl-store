@@ -1,8 +1,7 @@
 import Aedes from "aedes";
 
-import { deleteAsync } from "del";
 import { once } from "events";
-import { mkdir } from "fs/promises";
+import { mkdir, readdir, rm } from "fs/promises";
 import { connect } from "mqtt";
 import { createServer, Server, Socket } from "net";
 import { tmpdir } from "os";
@@ -11,10 +10,17 @@ import { promisify } from "util";
 import { Manager, MqttJsonlStore } from "..";
 import abstractTest, { exists } from "../../test/abstract.test";
 
+export const tmpDir = join(tmpdir(), "mqtt-jsonl-store");
+
+export async function emptyTmpDir() {
+	const files = await readdir(tmpDir);
+	await Promise.all(files.map((file) => rm(join(tmpDir, file), { recursive: true, force: true })));
+	await rm(tmpDir, { recursive: true, force: true });
+}
+
 export async function ensureTmpDir(): Promise<string> {
-	const tmpDir = join(tmpdir(), "mqtt-jsonl-store-test");
 	if (await exists(tmpDir)) {
-		await deleteAsync(tmpDir);
+		await emptyTmpDir();
 	}
 
 	await mkdir(tmpDir);
@@ -23,12 +29,18 @@ export async function ensureTmpDir(): Promise<string> {
 }
 
 describe("mqtt jsonl store", () => {
-	abstractTest(async () => {
-		const tmpDir = await ensureTmpDir();
-		const store = new MqttJsonlStore(join(tmpDir, "/store.jsonl"));
-		await store.open();
-		return store;
-	});
+	abstractTest(
+		async () => {
+			await ensureTmpDir();
+			const store = new MqttJsonlStore(join(tmpDir, "/store.jsonl"));
+			await store.open();
+			return store;
+		},
+		async (store) => {
+			await promisify(store.close.bind(store))();
+			await emptyTmpDir();
+		},
+	);
 });
 
 describe("mqtt client", () => {
@@ -66,6 +78,7 @@ describe("mqtt client", () => {
 		await promisify(broker.close.bind(broker))();
 		await destroyServer();
 		await manager.close();
+		await emptyTmpDir();
 	});
 
 	it("should resend messages", (done) => {
