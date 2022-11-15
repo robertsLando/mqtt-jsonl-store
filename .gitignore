@@ -18,3 +18,5 @@ yarn.lock
 
 # Windows stuff
 Thumbs.db
+
+/.test/

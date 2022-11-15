@@ -1,15 +1,4 @@
-import type { Stats } from "fs";
-import { stat } from "fs/promises";
 import type { MqttJsonlStore } from "../src";
-
-export async function exists(path: string): Promise<Stats | false> {
-	try {
-		const stats = await stat(path);
-		return stats;
-	} catch (e) {
-		return false;
-	}
-}
 
 // Ported from https://github.com/mqttjs/MQTT.js/blob/main/test/abstract_store.js
 export default function abstractTest(
@@ -18,7 +7,6 @@ export default function abstractTest(
 ): void {
 	let store: MqttJsonlStore;
 
-	// eslint-disable-next-line
 	beforeEach(async () => {
 		store = await createStore();
 	});

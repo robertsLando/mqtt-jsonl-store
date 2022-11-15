@@ -1,32 +1,13 @@
 import Aedes from "aedes";
 
 import { once } from "events";
-import { mkdir, readdir, rm } from "fs/promises";
 import { connect } from "mqtt";
 import { createServer, Server, Socket } from "net";
-import { tmpdir } from "os";
 import { join } from "path";
 import { promisify } from "util";
 import { Manager, MqttJsonlStore } from "..";
-import abstractTest, { exists } from "../../test/abstract.test";
-
-export const tmpDir = join(tmpdir(), "mqtt-jsonl-store");
-
-export async function emptyTmpDir() {
-	const files = await readdir(tmpDir);
-	await Promise.all(files.map((file) => rm(join(tmpDir, file), { recursive: true, force: true })));
-	await rm(tmpDir, { recursive: true, force: true });
-}
-
-export async function ensureTmpDir(): Promise<string> {
-	if (await exists(tmpDir)) {
-		await emptyTmpDir();
-	}
-
-	await mkdir(tmpDir);
-
-	return tmpDir;
-}
+import abstractTest from "../../test/abstract.test";
+import { emptyTmpDir, ensureTmpDir, tmpDir } from "../../test/utils";
 
 describe("mqtt jsonl store", () => {
 	abstractTest(
