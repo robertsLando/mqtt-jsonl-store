@@ -89,6 +89,7 @@
       "tagName": "v${version}"
     },
     "hooks": {
+      "before:init": "npm run build",
       "after:bump": "npm run changelog"
     },
     "npm": {
