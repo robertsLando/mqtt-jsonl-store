@@ -1,5 +1,23 @@
 
 
+# [0.1.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.0.2...v0.1.0) (2022-11-16)
+
+
+### Features
+
+* normalize db options ([a50c7c9](https://github.com/robertsLando/mqtt-jsonl-store/commit/a50c7c9832619b4fd7d18c61ba91a2bd18690210))
+
+# [0.1.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.0.2...v0.1.0) (2022-11-16)
+
+
+### Features
+
+* normalize db options ([a50c7c9](https://github.com/robertsLando/mqtt-jsonl-store/commit/a50c7c9832619b4fd7d18c61ba91a2bd18690210))
+
+
+
+
+
 ## 0.0.2 (2022-11-15)
 
 
