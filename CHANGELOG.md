@@ -1,5 +1,23 @@
 
 
+## [0.1.2](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.1...v0.1.2) (2022-11-16)
+
+
+### Bug Fixes
+
+* add missing types dedclaration ([3e3f341](https://github.com/robertsLando/mqtt-jsonl-store/commit/3e3f34154124acb767a23825bb49dbf4e2f27fb0))
+
+## [0.1.2](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.1...v0.1.2) (2022-11-16)
+
+
+### Bug Fixes
+
+* add missing types dedclaration ([3e3f341](https://github.com/robertsLando/mqtt-jsonl-store/commit/3e3f34154124acb767a23825bb49dbf4e2f27fb0))
+
+
+
+
+
 ## [0.1.1](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.0...v0.1.1) (2022-11-16)
 
 ## [0.1.1](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.0...v0.1.1) (2022-11-16)
