@@ -48,7 +48,7 @@
     "@types/jest": "^29.2.2",
     "@types/node": "^14.18.33",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
+    "@typescript-eslint/parser": "^5.54.0",
     "aedes": "^0.48.0",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.27.0",
