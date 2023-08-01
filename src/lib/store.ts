@@ -1,23 +1,15 @@
 import { JsonlDB, JsonlDBOptions } from "@alcalzone/jsonl-db";
-import type { Store } from "mqtt";
+import type { DoneCallback, IStore, PacketCallback } from "mqtt";
+import { Packet } from "mqtt-packet";
 import { Readable } from "stream";
 import { promisify } from "util";
 
-export interface DbPacket {
-	messageId: number;
-	[key: string]: any;
-}
-
-export interface MqttJsonlStoreOptions extends JsonlDBOptions<DbPacket> {
+export interface MqttJsonlStoreOptions extends JsonlDBOptions<Packet> {
 	maxSize: number;
 
 	// clean inflight messages when close is called (default true)
 	clean: boolean;
 }
-
-export type ErrorCallback = (err?: Error | null) => void;
-
-export type PacketCallback = (err?: Error | null, packet?: DbPacket) => void;
 
 function isObject(val: any): val is Record<string, any> {
 	return typeof val === "object" && !Array.isArray(val) && val !== null;
@@ -27,8 +19,8 @@ function isObject(val: any): val is Record<string, any> {
  * Normalize options for the JsonlDB.
  * Taken from https://github.com/ioBroker/ioBroker.js-controller/blob/646eade552634015c5aa215b1f7b0f9ecfa1c8f7/packages/db-states-jsonl/src/lib/states/statesInMemJsonlDB.js#L52
  */
-function normalizeJsonlOptions(conf: JsonlDBOptions<DbPacket> = {}): JsonlDBOptions<DbPacket> {
-	const ret: JsonlDBOptions<DbPacket> = {
+function normalizeJsonlOptions(conf: JsonlDBOptions<Packet> = {}): JsonlDBOptions<Packet> {
+	const ret: JsonlDBOptions<Packet> = {
 		autoCompress: {
 			sizeFactor: 10, // Compress when the number of uncompressed entries has grown a lot: uncompressedSize >= size * sizeFactor
 			sizeFactorMinimumSize: 50000, // Compress when the number of uncompressed entries is at least this large
@@ -85,15 +77,15 @@ function normalizeJsonlOptions(conf: JsonlDBOptions<DbPacket> = {}): JsonlDBOpti
 	return ret;
 }
 
-export class MqttJsonlStore implements Store {
-	public db: JsonlDB<DbPacket>;
+export class MqttJsonlStore implements IStore {
+	public db: JsonlDB<Packet>;
 
 	constructor(path: string, options?: MqttJsonlStoreOptions) {
 		this.db = new JsonlDB(path, normalizeJsonlOptions(options));
 	}
 
-	private getId(packet: DbPacket): string {
-		return packet.messageId.toString();
+	private getId(packet: Partial<Packet>): string {
+		return packet.messageId!.toString();
 	}
 
 	public open(): Promise<void> {
@@ -104,7 +96,7 @@ export class MqttJsonlStore implements Store {
 	 * Adds a packet to the store, a packet is anything that has a messageId property.
 	 * The callback is called when the packet has been stored.
 	 */
-	public put(packet: DbPacket, cb?: ErrorCallback): this {
+	public put(packet: Packet, cb?: DoneCallback): this {
 		this.db.set(this.getId(packet), packet);
 		if (cb) {
 			cb();
@@ -122,19 +114,19 @@ export class MqttJsonlStore implements Store {
 	 * Removes a packet from the store, a packet is anything that has a messageId property.
 	 * The callback is called when the packet has been removed.
 	 */
-	public del(packet: DbPacket, cb: PacketCallback): this {
-		let storedPacket: DbPacket | undefined;
+	public del(packet: Pick<Packet, "messageId">, cb: PacketCallback): this {
+		let storedPacket: Packet | undefined;
 		const id = this.getId(packet);
 		if (this.db.has(id)) {
 			storedPacket = this.db.get(id);
 			this.db.delete(id);
 		}
-		cb(null, storedPacket);
+		cb(undefined, storedPacket);
 
 		return this;
 	}
 
-	public close(cb: ErrorCallback): void {
+	public close(cb: DoneCallback): void {
 		this.db
 			.close()
 			.then(() => cb())
@@ -145,10 +137,10 @@ export class MqttJsonlStore implements Store {
 		return promisify(this.close.bind(this))();
 	}
 
-	public get(packet: DbPacket, cb: PacketCallback): this {
+	public get(packet: Pick<Packet, "messageId">, cb: PacketCallback): this {
 		const storedPacket = this.db.get(this.getId(packet));
 		if (storedPacket) {
-			cb(null, storedPacket);
+			cb(undefined, storedPacket);
 		} else {
 			cb(new Error("missing packet"));
 		}
