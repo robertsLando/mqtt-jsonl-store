@@ -2,6 +2,10 @@
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"source.fixAll.markdownlint": true
+	},
 	"[typescript]": {
 		"editor.codeActionsOnSave": {
 			"source.organizeImports": true

@@ -8,7 +8,7 @@ import { Manager } from "./src";
 async function setup(): Promise<void> {
 	const port = 1883;
 	const broker = new Aedes();
-	const server = createServer(broker.handle as any);
+	const server = createServer(broker.handle);
 	server.listen(port, () => {
 		console.log("server listening on port", port);
 	});

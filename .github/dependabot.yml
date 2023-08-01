@@ -1,12 +1,12 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: monthly
-    time: "04:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 5
-  assignees:
-  - robertsLando
-  versioning-strategy: increase
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "04:00"
+      timezone: Europe/Rome
+    open-pull-requests-limit: 5
+    assignees:
+      - robertsLando
+    versioning-strategy: increase

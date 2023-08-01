@@ -1,3 +1,4 @@
+import { Packet } from "mqtt-packet";
 import type { MqttJsonlStore } from "../src";
 
 // Ported from https://github.com/mqttjs/MQTT.js/blob/main/test/abstract_store.js
@@ -16,11 +17,14 @@ export default function abstractTest(
 	});
 
 	it("should put and stream in-flight packets", (done) => {
-		const packet = {
+		const packet: Packet = {
 			topic: "hello",
 			payload: "world",
 			qos: 1,
 			messageId: 42,
+			cmd: "publish",
+			dup: false,
+			retain: false,
 		};
 
 		store.put(packet, () => {
@@ -32,11 +36,14 @@ export default function abstractTest(
 	});
 
 	it("should support destroying the stream", (done) => {
-		const packet = {
+		const packet: Packet = {
 			topic: "hello",
 			payload: "world",
 			qos: 1,
 			messageId: 42,
+			cmd: "publish",
+			dup: false,
+			retain: false,
 		};
 
 		store.put(packet, () => {
@@ -47,11 +54,14 @@ export default function abstractTest(
 	});
 
 	it("should add and del in-flight packets", (done) => {
-		const packet = {
+		const packet: Packet = {
 			topic: "hello",
 			payload: "world",
 			qos: 1,
 			messageId: 42,
+			cmd: "publish",
+			dup: false,
+			retain: false,
 		};
 
 		store.put(packet, () => {
@@ -67,16 +77,18 @@ export default function abstractTest(
 	});
 
 	it("should replace a packet when doing put with the same messageId", (done) => {
-		const packet1 = {
+		const packet1: Packet = {
 			cmd: "publish", // added
 			topic: "hello",
 			payload: "world",
 			qos: 2,
 			messageId: 42,
+			dup: false,
+			retain: false,
 		};
-		const packet2 = {
+
+		const packet2: Packet = {
 			cmd: "pubrel", // added
-			qos: 2,
 			messageId: 42,
 		};
 
@@ -91,11 +103,14 @@ export default function abstractTest(
 	});
 
 	it("should return the original packet on del", (done) => {
-		const packet = {
+		const packet: Packet = {
+			cmd: "publish",
 			topic: "hello",
 			payload: "world",
 			qos: 1,
 			messageId: 42,
+			dup: false,
+			retain: false,
 		};
 
 		store.put(packet, () => {
@@ -110,11 +125,14 @@ export default function abstractTest(
 	});
 
 	it("should get a packet with the same messageId", (done) => {
-		const packet = {
+		const packet: Packet = {
+			cmd: "publish",
 			topic: "hello",
 			payload: "world",
 			qos: 1,
 			messageId: 42,
+			dup: false,
+			retain: false,
 		};
 
 		store.put(packet, () => {
