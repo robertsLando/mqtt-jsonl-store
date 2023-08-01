@@ -1,5 +1,7 @@
 
 
+# [0.2.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.2...v0.2.0) (2023-08-01)
+
 ## [0.1.2](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.1...v0.1.2) (2022-11-16)
 
 
