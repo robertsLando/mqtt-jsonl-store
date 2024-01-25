@@ -1,8 +1,9 @@
 import { JsonlDB, JsonlDBOptions } from "@alcalzone/jsonl-db";
 import type { DoneCallback, IStore, PacketCallback } from "mqtt";
 import { Packet } from "mqtt-packet";
-import { Readable } from "stream";
-import { promisify } from "util";
+import { Readable } from "node:stream";
+import { promisify } from "node:util";
+import { Readable as ReadableStream } from "readable-stream";
 
 export interface MqttJsonlStoreOptions extends JsonlDBOptions<Packet> {
 	maxSize: number;
@@ -106,8 +107,8 @@ export class MqttJsonlStore implements IStore {
 	}
 
 	/** Creates a new stream with all the packets in the store. */
-	public createStream(): Readable {
-		return Readable.from(this.db.values());
+	public createStream(): ReadableStream {
+		return Readable.from(this.db.values()) as ReadableStream;
 	}
 
 	/**

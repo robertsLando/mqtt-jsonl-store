@@ -1,6 +1,6 @@
-import { mkdirSync, statSync } from "fs";
-import { homedir } from "os";
-import { join } from "path";
+import { mkdirSync, statSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { MqttJsonlStore, MqttJsonlStoreOptions } from "./store";
 
 export interface ManagerOptions {

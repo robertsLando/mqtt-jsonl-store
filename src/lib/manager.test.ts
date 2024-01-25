@@ -7,11 +7,11 @@ describe("mqtt jsonl store manager", () => {
 	let manager: Manager;
 
 	test("should throw an error when path doesn't exists", () => {
-		expect(() => new Manager(join(__dirname, "not-existing"))).toThrowError(/ENOENT/);
+		expect(() => new Manager(join(__dirname, "not-existing"))).toThrow(/ENOENT/);
 	});
 
 	test("should throw an error when path isn't a directory", () => {
-		expect(() => new Manager(join(__filename))).toThrowError(/not a directory/);
+		expect(() => new Manager(join(__filename))).toThrow(/not a directory/);
 	});
 
 	describe("incoming", () => {
