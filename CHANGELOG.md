@@ -1,5 +1,12 @@
 
 
+## [0.2.1](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.2.0...v0.2.1) (2024-01-25)
+
+
+### Bug Fixes
+
+* types issues and bump deps ([9322264](https://github.com/robertsLando/mqtt-jsonl-store/commit/932226488f2442b0f8297e4a155d04e435cb328e))
+
 # [0.2.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.2...v0.2.0) (2023-08-01)
 
 ## [0.1.2](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.1.1...v0.1.2) (2022-11-16)
