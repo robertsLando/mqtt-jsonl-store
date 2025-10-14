@@ -1,4 +1,11 @@
+# Changelog
 
+# [0.3.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.2.1...v0.3.0) (2025-10-14)
+
+
+### Features
+
+* update dependencies and ESLint configuration ([#37](https://github.com/robertsLando/mqtt-jsonl-store/issues/37)) ([9d0a1fc](https://github.com/robertsLando/mqtt-jsonl-store/commit/9d0a1fcbd6ef3ce73f1979dfa3ab0d787e889048))
 
 ## [0.2.1](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.2.0...v0.2.1) (2024-01-25)
 
