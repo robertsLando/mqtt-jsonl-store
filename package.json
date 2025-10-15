@@ -93,6 +93,6 @@
   },
   "readmeFilename": "README.md",
   "dependencies": {
-    "@alcalzone/jsonl-db": "^4.0.1"
+    "@alcalzone/jsonl-db": "^4.0.2"
   }
 }
