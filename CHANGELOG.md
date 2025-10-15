@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.3.0...v0.3.1) (2025-10-15)
+
+
+### Bug Fixes
+
+* update @alcalzone/jsonl-db to version 4.0.2 in package.json and package-lock.json ([21eb7f7](https://github.com/robertsLando/mqtt-jsonl-store/commit/21eb7f7902ee931fab443832144eb4e448a06357))
+
 # [0.3.0](https://github.com/robertsLando/mqtt-jsonl-store/compare/v0.2.1...v0.3.0) (2025-10-14)
 
 

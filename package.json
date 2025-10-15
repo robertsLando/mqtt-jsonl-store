@@ -1,6 +1,6 @@
 {
   "name": "mqtt-jsonl-store",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "JSONL store for in-flight MQTT.js packets.",
   "keywords": [
     "jsonl",
